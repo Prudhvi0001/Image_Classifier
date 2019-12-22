@@ -86,7 +86,7 @@ Exercise: Find the values for:
 Remember that train_set_x_orig is a numpy-array of shape (m_train, num_px, num_px, 3). 
 For instance, you can access m_train by writing train_set_x_orig.shape[0].
 
-### START CODE HERE ### (˜ 3 lines of code)
+### START CODE HERE ### (Ëœ 3 lines of code)
 
 m_train = train_set_x_orig.shape[0]
 
@@ -142,7 +142,7 @@ X_flatten = X.reshape(X.shape[0], -1).T      # X.T is the transpose of X
 
 ?
 
-### START CODE HERE ### (˜ 2 lines of code)
+### START CODE HERE ### (Ëœ 2 lines of code)
 
 train_set_x_flatten = train_set_x_orig.reshape(train_set_x_orig.shape[0],-1).T
 
@@ -269,7 +269,7 @@ def sigmoid(z):
 
 ?
 
-    ### START CODE HERE ### (˜ 1 line of code)
+    ### START CODE HERE ### (Ëœ 1 line of code)
 
     s = 1/(1+np.exp(-z))
 
@@ -318,7 +318,7 @@ def initialize_with_zeros(dim):
 
     
 
-    ### START CODE HERE ### (˜ 1 line of code)
+    ### START CODE HERE ### (Ëœ 1 line of code)
 
     w = np.zeros((dim,1),dtype=float)
 
@@ -352,7 +352,7 @@ Expected Output:
 w 	[[ 0.] [ 0.]]
 b 	0
 
-For image inputs, w will be of shape (num_px ×× num_px ×× 3, 1).
+For image inputs, w will be of shape (num_px Ã—Ã— num_px Ã—Ã— 3, 1).
 4.3 - Forward and Backward propagation
 
 Now that your parameters are initialized, you can do the "forward" and "backward" propagation steps for learning the parameters.
@@ -422,7 +422,7 @@ def propagate(w, b, X, Y):
 
     # FORWARD PROPAGATION (FROM X TO COST)
 
-    ### START CODE HERE ### (˜ 2 lines of code)
+    ### START CODE HERE ### (Ëœ 2 lines of code)
 
     A = 1/(1+np.exp(-(np.dot(w.T,X)+b)))                                   # compute activation
 
@@ -434,7 +434,7 @@ def propagate(w, b, X, Y):
 
     # BACKWARD PROPAGATION (TO FIND GRAD)
 
-    ### START CODE HERE ### (˜ 2 lines of code)
+    ### START CODE HERE ### (Ëœ 2 lines of code)
 
     dw = (1/m)*np.dot(X,(A-Y).T)
 
@@ -552,7 +552,7 @@ def optimize(w, b, X, Y, num_iterations, learning_rate, print_cost = False):
 
         
 
-        # Cost and gradient calculation (˜ 1-4 lines of code)
+        # Cost and gradient calculation (Ëœ 1-4 lines of code)
 
         ### START CODE HERE ### 
 
@@ -570,7 +570,7 @@ def optimize(w, b, X, Y, num_iterations, learning_rate, print_cost = False):
 
         
 
-        # update rule (˜ 2 lines of code)
+        # update rule (Ëœ 2 lines of code)
 
         ### START CODE HERE ###
 
@@ -685,7 +685,7 @@ def predict(w, b, X):
 
     # Compute vector "A" predicting the probabilities of a cat being present in the picture
 
-    ### START CODE HERE ### (˜ 1 line of code)
+    ### START CODE HERE ### (Ëœ 1 line of code)
 
     A = 1/(1+np.exp(-(np.dot(w.T,X)+b)))
 
@@ -699,7 +699,7 @@ def predict(w, b, X):
 
         # Convert probabilities A[0,i] to actual predictions p[0,i]
 
-        ### START CODE HERE ### (˜ 4 lines of code)
+        ### START CODE HERE ### (Ëœ 4 lines of code)
 
         if A[0,i]>0.5:
 
@@ -790,13 +790,13 @@ def model(X_train, Y_train, X_test, Y_test, num_iterations = 2000, learning_rate
 
     
 
-    # initialize parameters with zeros (˜ 1 line of code)
+    # initialize parameters with zeros (Ëœ 1 line of code)
 
     w, b = initialize_with_zeros(X_train.shape[0])
 
 ?
 
-    # Gradient descent (˜ 1 line of code)
+    # Gradient descent (Ëœ 1 line of code)
 
     parameters, grads, costs = optimize(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost = False)
 
@@ -810,7 +810,7 @@ def model(X_train, Y_train, X_test, Y_test, num_iterations = 2000, learning_rate
 
     
 
-    # Predict test/train set examples (˜ 2 lines of code)
+    # Predict test/train set examples (Ëœ 2 lines of code)
 
     Y_prediction_test = predict(w, b, X_test)
 
