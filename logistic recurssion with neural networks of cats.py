@@ -1,4 +1,4 @@
-Logistic Regression with a Neural Network mindset
+""" Logistic Regression with a Neural Network mindset
 
 Welcome to your first (required) programming assignment! You will build a logistic regression classifier to recognize cats.
 This assignment will step you through how to do this with a Neural Network mindset, and so will also hone your intuitions about deep learning.
@@ -22,7 +22,7 @@ First, let's run the cell below to import all the packages that you will need du
     numpy is the fundamental package for scientific computing with Python.
     h5py is a common package to interact with a dataset that is stored on an H5 file.
     matplotlib is a famous library to plot graphs in Python.
-    PIL and scipy are used here to test your model with your own picture at the end.
+    PIL and scipy are used here to test your model with your own picture at the end. """
 
 import numpy as np
 
@@ -42,7 +42,7 @@ from lr_utils import load_dataset
 
 %matplotlib inline
 
-2 - Overview of the Problem set
+""" 2 - Overview of the Problem set
 
 Problem Statement: You are given a dataset ("data.h5") containing:
 
@@ -52,17 +52,17 @@ Problem Statement: You are given a dataset ("data.h5") containing:
 
 You will build a simple image-recognition algorithm that can correctly classify pictures as cat or non-cat.
 
-Let's get more familiar with the dataset. Load the data by running the following code.
+Let's get more familiar with the dataset. Load the data by running the following code. """
 
 # Loading the data (cat/non-cat)
 
 train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
 
-We added "_orig" at the end of image datasets (train and test) because we are going to preprocess them. 
+""" We added "_orig" at the end of image datasets (train and test) because we are going to preprocess them. 
 After preprocessing, we will end up with train_set_x and test_set_x (the labels train_set_y and test_set_y don't need any preprocessing).
 
 Each line of your train_set_x_orig and test_set_x_orig is an array representing an image. 
-You can visualize an example by running the following code. Feel free also to change the index value and re-run to see other images.
+You can visualize an example by running the following code. Feel free also to change the index value and re-run to see other images."""
 
 # Example of a picture
 
@@ -74,7 +74,7 @@ print ("y = " + str(train_set_y[:, index]) + ", it's a '" + classes[np.squeeze(t
 
 y = [1], it's a 'cat' picture.
 
-Many software bugs in deep learning come from having matrix/vector dimensions that don't fit. 
+""" Many software bugs in deep learning come from having matrix/vector dimensions that don't fit. 
 If you can keep your matrix/vector dimensions straight you will go a long way toward eliminating many bugs.
 
 Exercise: Find the values for:
@@ -84,7 +84,7 @@ Exercise: Find the values for:
 - num_px (= height = width of a training image)
 
 Remember that train_set_x_orig is a numpy-array of shape (m_train, num_px, num_px, 3). 
-For instance, you can access m_train by writing train_set_x_orig.shape[0].
+For instance, you can access m_train by writing train_set_x_orig.shape[0]. """
 
 ### START CODE HERE ### (˜ 3 lines of code)
 
@@ -95,8 +95,6 @@ m_test = test_set_x_orig.shape[0]
 num_px = train_set_x_orig.shape[1]
 
 ### END CODE HERE ###
-
-?
 
 print ("Number of training examples: m_train = " + str(m_train))
 
@@ -123,7 +121,7 @@ train_set_y shape: (1, 209)
 test_set_x shape: (50, 64, 64, 3)
 test_set_y shape: (1, 50)
 
-Expected Output for m_train, m_test and num_px:
+""" Expected Output for m_train, m_test and num_px:
 m_train 	209
 m_test 	50
 num_px 	64
@@ -134,13 +132,12 @@ our training (and test) dataset is a numpy-array where each column represents a 
 Exercise:
  Reshape the training and test data sets so that images of size (num_px, num_px, 3) are flattened into single vectors of shape (num_px ** num_px ** 3, 1).
 
-A trick when you want to flatten a matrix X of shape (a,b,c,d) to a matrix X_flatten of shape (b**c**d, a) is to use:
+A trick when you want to flatten a matrix X of shape (a,b,c,d) to a matrix X_flatten of shape (b**c**d, a) is to use: """
 
 X_flatten = X.reshape(X.shape[0], -1).T      # X.T is the transpose of X
 
 # Reshape the training and test examples
 
-?
 
 ### START CODE HERE ### (˜ 2 lines of code)
 
@@ -168,7 +165,7 @@ test_set_x_flatten shape: (12288, 50)
 test_set_y shape: (1, 50)
 sanity check after reshaping: [17 31 56 22 33]
 
-Expected Output:
+""" Expected Output:
 train_set_x_flatten shape 	(12288, 209)
 train_set_y shape 	(1, 209)
 test_set_x_flatten shape 	(12288, 50)
@@ -182,15 +179,15 @@ One common preprocessing step in machine learning is to center and standardize y
 meaning that you substract the mean of the whole numpy array from each example, 
 and then divide each example by the standard deviation of the whole numpy array. 
 But for picture datasets, 
-it is simpler and more convenient and works almost as well to just divide every row of the dataset by 255 (the maximum value of a pixel channel).
+it is simpler and more convenient and works almost as well to just divide every row of the dataset by 255 (the maximum value of a pixel channel). """
 
-Let's standardize our dataset.
+# Let's standardize our dataset.
 
 train_set_x = train_set_x_flatten/255.
 
 test_set_x = test_set_x_flatten/255.
 
-What you need to remember:
+""" What you need to remember:
 
 Common steps for pre-processing a new dataset are:
 
@@ -205,21 +202,21 @@ It's time to design a simple algorithm to distinguish cat images from non-cat im
 You will build a Logistic Regression, using a Neural Network mindset. 
 The following Figure explains why Logistic Regression is actually a very simple Neural Network!
 
-Mathematical expression of the algorithm:
+Mathematical expression of the algorithm: """
 
-For one example x(i)x(i):
+# For one example x(i)x(i):
 z(i)=wTx(i)+b(1)
 z(i)=wTx(i)+b
 y^ (i)=a(i)=sigmoid(z(i))(2)
 y^(i)=a(i)=sigmoid(z(i))
-?(a(i),y(i))=-y(i)log(a(i))-(1-y(i))log(1-a(i))(3)
+(a(i),y(i))=-y(i)log(a(i))-(1-y(i))log(1-a(i))(3)
 L(a(i),y(i))=-y(i)log?(a(i))-(1-y(i))log?(1-a(i))
 
-The cost is then computed by summing over all training examples:
+#The cost is then computed by summing over all training examples:
 J=1m?i=1m?(a(i),y(i))(6)
 J=1m?i=1mL(a(i),y(i))
 
-Key steps: In this exercise, you will carry out the following steps:
+""" Key steps: In this exercise, you will carry out the following steps:
 
 - Initialize the parameters of the model
 - Learn the parameters for the model by minimizing the cost  
@@ -241,11 +238,10 @@ You often build 1-3 separately and integrate them into one function we call mode
 4.1 - Helper functions
 
 Exercise: Using your code from "Python Basics", implement sigmoid(). 
-As you've seen in the figure above, you need to compute sigmoid(wTx+b)=11+e-(wTx+b)sigmoid(wTx+b)=11+e-(wTx+b) to make predictions. Use np.exp().
+As you've seen in the figure above, you need to compute sigmoid(wTx+b)=11+e-(wTx+b)sigmoid(wTx+b)=11+e-(wTx+b) to make predictions. Use np.exp(). """
 
 # GRADED FUNCTION: sigmoid
 
-?
 
 def sigmoid(z):
 
@@ -253,13 +249,11 @@ def sigmoid(z):
 
     Compute the sigmoid of z
 
-?
 
     Arguments:
 
     z -- A scalar or numpy array of any size.
 
-?
 
     Return:
 
@@ -267,7 +261,6 @@ def sigmoid(z):
 
     """
 
-?
 
     ### START CODE HERE ### (˜ 1 line of code)
 
@@ -287,8 +280,8 @@ Expected Output:
 sigmoid([0, 2]) 	[ 0.5 0.88079708]
 4.2 - Initializing parameters
 
-Exercise: Implement parameter initialization in the cell below. You have to initialize w as a vector of zeros. 
-If you don't know what numpy function to use, look up np.zeros() in the Numpy library's documentation.
+""" Exercise: Implement parameter initialization in the cell below. You have to initialize w as a vector of zeros. 
+If you don't know what numpy function to use, look up np.zeros() in the Numpy library's documentation. """
 
 # GRADED FUNCTION: initialize_with_zeros
 
@@ -348,7 +341,7 @@ w = [[ 0.]
  [ 0.]]
 b = 0
 
-Expected Output:
+""" Expected Output:
 w 	[[ 0.] [ 0.]]
 b 	0
 
@@ -367,12 +360,12 @@ Forward Propagation:
     You compute A=s(wTX+b)=(a(0),a(1),...,a(m-1),a(m))A=s(wTX+b)=(a(0),a(1),...,a(m-1),a(m))
     You calculate the cost function: J=-1m?mi=1y(i)log(a(i))+(1-y(i))log(1-a(i))J=-1m?i=1my(i)log?(a(i))+(1-y(i))log?(1-a(i))
 
-Here are the two formulas you will be using:
+Here are the two formulas you will be using: """
 
-?J?w=1mX(A-Y)T(7)
+""" ?J?w=1mX(A-Y)T(7)
 ?J?w=1mX(A-Y)T
 ?J?b=1m?i=1m(a(i)-y(i))(8)
-?J?b=1m?i=1m(a(i)-y(i))
+?J?b=1m?i=1m(a(i)-y(i)) """
 
 # GRADED FUNCTION: propagate
 
@@ -384,7 +377,6 @@ def propagate(w, b, X, Y):
 
     Implement the cost function and its gradient for the propagation explained above
 
-?
 
     Arguments:
 
@@ -396,7 +388,7 @@ def propagate(w, b, X, Y):
 
     Y -- true "label" vector (containing 0 if non-cat, 1 if cat) of size (1, number of examples)
 
-?
+
 
     Return:
 
